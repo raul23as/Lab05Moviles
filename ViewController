@@ -1,0 +1,44 @@
+import UIKit
+
+class ViewController: UIViewController {
+    
+    // Corregido: añadida la 't' que faltaba en weight
+    @IBOutlet weak var weightTextField: UITextField!
+    @IBOutlet weak var heightTextField: UITextField!
+    @IBOutlet weak var resultLabel: UILabel!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        resultLabel.text = "Introduce tu peso y altura"
+    }
+
+    @IBAction func CalcularResultado(_ sender: Any) {
+        // 1. Obtener los valores de peso y altura
+        let weight = Double(weightTextField.text ?? "") ?? 0
+        let height = Double(heightTextField.text ?? "") ?? 0
+
+        // 2. Verificar si los valores de entrada son válidos
+        if weight == 0 || height == 0 {
+            resultLabel.text = "Por favor, ingresa valores válidos."
+            return
+        }
+
+        // 3. Calcular el IMC
+        let bmi = weight / (height * height)
+
+        // 4. Determinar el estado
+        var status = ""
+        if bmi < 18.5 {
+            status = "Bajo peso"
+        } else if bmi < 24.9 {
+            status = "Peso normal"
+        } else if bmi < 29.9 {
+            status = "Sobrepeso"
+        } else {
+            status = "Obesidad"
+        }
+
+        // 5. Mostrar el resultado
+        resultLabel.text = "IMC: \(String(format: "%.2f", bmi)) - \(status)"
+    }
+}
